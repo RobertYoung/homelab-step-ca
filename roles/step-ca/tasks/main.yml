@@ -1,7 +1,27 @@
 ---
-# Step CA main tasks
-# TODO: Implement step-ca deployment tasks
+- name: Setup system
+  ansible.builtin.include_tasks:
+    file: setup.yml
+    apply:
+      tags:
+        - setup
+  tags:
+    - always
 
-- name: Include setup tasks
-  ansible.builtin.include_tasks: setup.yml
-  tags: [step-ca, setup]
+- name: Setup step-ca
+  ansible.builtin.include_tasks:
+    file: step-ca.yml
+    apply:
+      tags:
+        - step-ca
+  tags:
+    - always
+
+- name: Setup backup
+  ansible.builtin.include_tasks:
+    file: backup.yml
+    apply:
+      tags:
+        - backup
+  tags:
+    - always

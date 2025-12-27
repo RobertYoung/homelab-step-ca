@@ -1,0 +1,24 @@
+services:
+  step-ca:
+    image: smallstep/step-ca:{{ step_ca_service_version }}
+    container_name: step-ca
+    volumes:
+      - step-ca-data:/home/step
+    restart: unless-stopped
+    ports:
+      - "{{ step_ca_service_port }}:9000"
+    env_file:
+      - ./step-ca.env
+
+  backup-toolkit:
+    container_name: backup-toolkit
+    image: backup-toolkit:local
+    command: sleep infinity
+    restart: unless-stopped
+    volumes:
+      - step-ca-data:{{ step_ca_backup_from }}
+    env_file:
+      - ./backup-toolkit.env
+
+volumes:
+  step-ca-data:

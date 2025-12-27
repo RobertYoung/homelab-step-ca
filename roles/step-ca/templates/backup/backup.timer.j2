@@ -1,0 +1,8 @@
+[Unit]
+Description=Run {{ step_ca_service_name }} backup periodically
+
+[Timer]
+OnCalendar={{ step_ca_backup_cron }}
+
+[Install]
+WantedBy=timers.target

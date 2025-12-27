@@ -33,3 +33,8 @@ roles:
     scm: git
     version: v1.3.2
     name: wazuh-agent
+
+  - src: git@github.com:RobertYoung/homelab-ansible-role-step-ca-client.git
+    scm: git
+    version: v1.3.0
+    name: step-ca-client
