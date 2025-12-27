@@ -1,0 +1,30 @@
+---
+- name: Create docker compose config
+  become: true
+  ansible.builtin.template:
+    src: "templates/docker-compose/docker-compose.yml.j2"
+    dest: "{{ step_ca_config_dir }}/docker-compose.yml"
+    owner: "{{ step_ca_user }}"
+    group: "{{ step_ca_user }}"
+    mode: "0644"
+  notify: "Restart {{ step_ca_service_name }}"
+
+- name: Create systemd service file
+  become: true
+  ansible.builtin.template:
+    src: "templates/{{ step_ca_service_name }}/{{ step_ca_service_name }}.service.j2"
+    dest: /etc/systemd/system/{{ step_ca_service_name }}.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify: "Restart {{ step_ca_service_name }}"
+
+- name: Create step-ca .env file
+  become: true
+  ansible.builtin.template:
+    src: templates/docker-compose/step-ca.env.j2
+    dest: "{{ step_ca_config_dir }}/step-ca.env"
+    group: "{{ step_ca_user }}"
+    owner: "{{ step_ca_user }}"
+    mode: "0400"
+  notify: "Restart {{ step_ca_service_name }}"

@@ -1,20 +1,22 @@
 ---
-# Step CA handlers
-
-- name: Stop step-ca service
+- name: "Restart {{ step_ca_service_name }}"
+  become: true
+  changed_when: true
   ansible.builtin.systemd:
-    name: "{{ service_name }}"
+    name: "{{ step_ca_service_name }}"
     state: stopped
-  listen: "restart step-ca"
+  notify: Reload systemd
 
-- name: Reload systemd
+- name: "Reload systemd"
+  become: true
+  changed_when: true
   ansible.builtin.systemd:
     daemon_reload: true
-  listen: "restart step-ca"
+  notify: "Start {{ step_ca_service_name }}"
 
-- name: Start step-ca service
+- name: "Start {{ step_ca_service_name }}"
+  become: true
   ansible.builtin.systemd:
-    name: "{{ service_name }}"
-    state: started
+    name: "{{ step_ca_service_name }}"
     enabled: true
-  listen: "restart step-ca"
+    state: started

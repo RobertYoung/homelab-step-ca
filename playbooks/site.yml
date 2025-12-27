@@ -1,6 +1,6 @@
 ---
 - name: Step CA server configuration
-  hosts: step_ca
+  hosts: step-ca
   vars:
     hostname: step-ca
     domain: local.iamrobertyoung.co.uk
@@ -45,8 +45,16 @@
     - role: wazuh-agent
       tags: [wazuh-agent]
 
-# TODO: Add step-ca role configuration here
-# - role: step-ca
-#   tags: [step-ca]
-#   vars:
-#     # Add step-ca specific variables
+    - role: step-ca
+      tags: [step-ca]
+      vars:
+        step_ca_backup_aws_access_key: "{{ lookup('aws_ssm', '/home-server/access-key', region='eu-west-2') }}"
+        step_ca_backup_aws_secret_access_key: "{{ lookup('aws_ssm', '/home-server/secret-access-key', region='eu-west-2') }}"
+        step_ca_backup_aws_region: eu-west-2
+        step_ca_backup_mosquitto_password: "{{ lookup('aws_ssm', '/home-server/mosquitto-home-assistant-password', region='eu-west-2') }}"
+
+    - role: step-ca-client
+      tags: [step-ca-client]
+      vars:
+        step_ca_client_provisioner_password: "{{ lookup('aws_ssm', '/home-server/step-ca-ansible-password', region='eu-west-2') }}"
+        step_ca_client_cert_not_after: "168h" # 7 days
