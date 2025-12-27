@@ -1,0 +1,12 @@
+---
+# Step CA default variables
+
+service_name: step-ca
+service_port: "9000"
+service_data_dir: /var/lib/step-ca
+service_config_dir: /etc/step-ca
+service_user: step-ca
+service_domain: step-ca.local.iamrobertyoung.co.uk
+service_container_name: step-ca
+
+# TODO: Add step-ca specific default variables

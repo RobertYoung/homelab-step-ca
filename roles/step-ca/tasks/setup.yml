@@ -1,0 +1,7 @@
+---
+# Step CA setup tasks
+# TODO: Implement step-ca setup tasks (users, directories, etc.)
+
+- name: Placeholder task
+  ansible.builtin.debug:
+    msg: "Step CA setup tasks not yet implemented"
